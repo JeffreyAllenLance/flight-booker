@@ -1,0 +1,33 @@
+<h1>Booking Information</h1>
+
+<h3>Flight Information</h3>
+<div>
+  <h4>From: </h4>
+  <span><%= @booking.flight.from_airport.code %></span>
+</div>
+<div>
+  <h4>To: </h4>
+  <span><%= @booking.flight.to_airport.code%></span>
+</div>
+<div>
+  <h4>Time: </h4>
+  <span><%= @booking.flight.start_datetime.strftime('%Y-%m-%d at %H:%M')%></span>
+</div>
+<div>
+  <h4>Duration: </h4>
+  <span><%= @booking.flight.duration %></span>
+</div>
+
+
+<h3>Passengers</h3>
+<% @booking.passengers.each_with_index do |passenger, index| %>
+  <h4><%= "Passenger #{index + 1}" %></h4>
+  <div>
+    <h5>Name: </h5>
+    <span><%= passenger.name %></span>
+  </div>
+  <div>
+    <h5>Email: </h5>
+    <span><%= passenger.email %></span>
+  </div>
+<% end %>

@@ -1,0 +1,36 @@
+<h1>Search For Flights</h1>
+
+<%= form_with(url: flights_path, method: "get", local: true) do %>
+  <%= label_tag(:from, "From") %>
+  <%= collection_select(:from_airport, :start_id, @airports, :id, :code) %>
+  <%= label_tag(:to, "To") %>
+  <%= collection_select(:to_airport, :finish_id, @airports, :id, :code)%>
+  <%= label_tag(:passengers, "Passengers") %>
+  <%= select_tag(:passengers, options_for_select([
+                                                     [1, 1],
+                                                     [2, 2],
+                                                     [3, 3],
+                                                     [4, 4]])) %>
+  <%= label_tag(:date, "Date") %>
+  <%= select_tag "flight_date", options_for_select(@flight_dates) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+<br>
+<br>
+
+<% if !@flight_results.nil? && @flight_results.length > 0 %>
+  <%= form_with(url: new_booking_path, method: "get", local: true) do %>
+    <% @flight_results.find_each do |flight| %>
+      <%= radio_button_tag(:flight, flight.id) %>
+      <%= label_tag(:flight, "#{flight.from_airport.code} to #{flight.to_airport.code}
+           on #{
+                flight.start_datetime.strftime('%Y-%m-%d at %H:%M')
+                }") %>
+      <br>
+      <br>
+    <% end %>
+    <%= hidden_field_tag "passengers", params[:passengers] %>
+    <%= submit_tag("Book Flight") %>
+  <% end %>
+<% end %>
